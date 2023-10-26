@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +27,7 @@ public class JwtSecurityController {
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginRes> login(@RequestBody LoginReq loginReq) {
+    public ResponseEntity<?> login(@RequestBody LoginReq loginReq) {
         System.out.println(loginReq.getEmail());
         System.out.println(loginReq.getPassword());
         try {
@@ -36,8 +37,8 @@ public class JwtSecurityController {
             LoginRes loginRes = new LoginRes(user.getEmail(), token);
             return ResponseEntity.ok(loginRes);
         }catch (Exception e)
-        {   e.printStackTrace();
-            return ResponseEntity.badRequest().body(new LoginRes("failed","failed"));
+        {   //e.printStackTrace();
+            return ResponseEntity.badRequest().body("User not found..");
         }
 
     }
