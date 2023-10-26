@@ -4,36 +4,39 @@ import com.example.backendproiect.auth.JwtUtil;
 import com.example.backendproiect.dto.LoginReq;
 import com.example.backendproiect.dto.LoginRes;
 import com.example.backendproiect.dto.UserDto;
+import com.example.backendproiect.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@EnableWebSecurity
 @RequestMapping("/auth")
 public class JwtSecurityController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private CustomUserDetailsService userDetailsService;
     @Autowired
     private JwtUtil jwtUtil;
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginRes> login(@RequestBody LoginReq loginReq) {
-
+        System.out.println(loginReq.getEmail());
+        System.out.println(loginReq.getPassword());
         try {
-            Authentication authentication =
-                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
-            String email = authentication.getName();
-            UserDto user = new UserDto(email, "");
+            UserDetails userDetails=userDetailsService.loadUserByUsername(loginReq.getEmail());
+            UserDto user = new UserDto(userDetails.getUsername(), "");
             String token = jwtUtil.createToken(user);
-            LoginRes loginRes = new LoginRes(email, token);
+            LoginRes loginRes = new LoginRes(user.getEmail(), token);
             return ResponseEntity.ok(loginRes);
         }catch (Exception e)
-        {
+        {   e.printStackTrace();
             return ResponseEntity.badRequest().body(new LoginRes("failed","failed"));
         }
 
