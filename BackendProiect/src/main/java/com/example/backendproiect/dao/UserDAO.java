@@ -5,5 +5,4 @@ import com.example.backendproiect.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDAO extends JpaRepository<User,String> {
-    public User findUserByEmailAndPassword(String email,String password);
 }

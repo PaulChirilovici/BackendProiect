@@ -1,5 +1,4 @@
 package com.example.backendproiect.service;
-
 import com.example.backendproiect.dao.UserDAO;
 import com.example.backendproiect.dto.UserDto;
 import com.example.backendproiect.entities.User;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service

@@ -1,13 +1,16 @@
 package com.example.backendproiect.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Employee{
 
     @Id
@@ -16,6 +19,7 @@ public class Employee{
 
     private String name;
     private String email;
-    private String managerId;
-    private String emailId;
+    private Integer managerId;
+    private Integer departmentId;
+    private String role;
 }
