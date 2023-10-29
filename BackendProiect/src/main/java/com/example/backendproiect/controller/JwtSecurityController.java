@@ -29,7 +29,7 @@ public class JwtSecurityController {
         try {
             User userDetails = userDetailsService.loadUserByEmailAndPassword(loginReq.getEmail(), loginReq.getPassword());
             UserDto user = new UserDto(userDetails.getEmail(), "");
-            String token = jwtUtil.createToken(user);
+            String token = jwtUtil.generateToken(user);
             LoginRes loginRes = new LoginRes(user.getEmail(), token);
             return ResponseEntity.ok(loginRes);
         } catch (Exception e) {   //e.printStackTrace();

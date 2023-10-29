@@ -17,7 +17,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping
+    @GetMapping("/employee")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         return new ResponseEntity<>(employees, HttpStatus.OK);
@@ -31,9 +31,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        Employee createdEmployee = employeeService.createEmployee(employee);
-        return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
+    public ResponseEntity<?> createEmployee(@RequestBody Employee employee) {
+        try {
+            return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
+        }catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Cannot create user with same email.");
+        }
     }
 
     @PutMapping("/employee/{id}")
