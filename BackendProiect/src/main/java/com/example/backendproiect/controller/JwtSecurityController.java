@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @EnableWebSecurity
+@CrossOrigin(origins = "*")
 @RequestMapping("/auth")
 public class JwtSecurityController {
 
