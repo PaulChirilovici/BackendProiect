@@ -18,7 +18,7 @@ import java.util.function.Function;
 public class JwtUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
 
     private String secret="nuimicunosctatal";
@@ -34,7 +34,7 @@ public class JwtUtil implements Serializable {
     }
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
+        final Claims claims =  getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
     //for retrieveing any information from token we will need the secret key
