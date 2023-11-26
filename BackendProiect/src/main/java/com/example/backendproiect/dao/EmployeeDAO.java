@@ -13,4 +13,5 @@ public interface EmployeeDAO extends JpaRepository<Employee,Integer> {
     List<Employee>getEmployeesByDepartmentIdAndRole(Integer departmentId);
     @Query("SELECT u FROM Employee u WHERE u.role = 'Manager' AND u.departmentId=?1")
     List<Employee>getManagersByDepartmentIdAndRole(Integer departmentId);
+    Employee getEmployeeByEmail(String email);
 }

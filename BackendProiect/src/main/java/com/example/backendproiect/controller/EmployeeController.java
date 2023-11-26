@@ -1,5 +1,6 @@
 package com.example.backendproiect.controller;
 
+import com.example.backendproiect.dto.ResetPasswordReq;
 import com.example.backendproiect.entities.Employee;
 import com.example.backendproiect.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,13 @@ public class EmployeeController {
     public ResponseEntity<?>getAllManagersPerDepartment(@PathVariable Integer departmentId)
     {
         return ResponseEntity.ok(this.employeeService.getAllManagersByDepartment(departmentId));
+    }
+
+    @PostMapping("/employee/rpassword")
+    public ResponseEntity<?>resetEmployeePassword(@RequestBody ResetPasswordReq resetPasswordReq) throws Exception {
+        System.out.println(resetPasswordReq.toString());
+        this.employeeService.resetPassword(resetPasswordReq);
+        return ResponseEntity.ok("Successfully changed password");
     }
 }
 

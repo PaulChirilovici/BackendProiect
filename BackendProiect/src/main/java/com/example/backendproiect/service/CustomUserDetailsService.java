@@ -44,8 +44,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
     }
 
-    public void saveUser(UserDto userDto) throws Exception {
-        if (userRepository.findById(userDto.getEmail()).isPresent())
+    public void saveUser(UserDto userDto,boolean update) throws Exception {
+        if (userRepository.findById(userDto.getEmail()).isPresent() && !update)
             throw new Exception("User already exists!");
         this.userRepository.save(new User(userDto.getEmail(), bCryptPasswordEncoder.encode(userDto.getPassword())));
     }

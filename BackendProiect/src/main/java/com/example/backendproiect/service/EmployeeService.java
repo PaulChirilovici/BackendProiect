@@ -2,7 +2,10 @@ package com.example.backendproiect.service;
 
 import com.example.backendproiect.dao.EmployeeDAO;
 import com.example.backendproiect.dao.UserDAO;
+import com.example.backendproiect.dto.ResetPasswordReq;
+import com.example.backendproiect.dto.UserDto;
 import com.example.backendproiect.entities.Employee;
+import com.example.backendproiect.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ public class EmployeeService {
     @Autowired
     private UserDAO userRepository;
 
+    @Autowired
+    private CustomUserDetailsService userService;
+
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -25,7 +31,8 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public Employee createEmployee(Employee employee) {
+    public Employee createEmployee(Employee employee) throws Exception {
+        userService.saveUser(new UserDto(employee.getEmail(),"pass123"),false);
         return employeeRepository.save(employee);
     }
 
@@ -57,5 +64,16 @@ public class EmployeeService {
     public List<Employee> getAllManagersByDepartment(Integer departmentId)
     {
         return this.employeeRepository.getManagersByDepartmentIdAndRole(departmentId);
+    }
+
+    public void resetPassword(ResetPasswordReq resetPasswordReq) throws Exception {
+        Optional<User> user=this.userRepository.findById(resetPasswordReq.getEmail());
+
+        if(user.isPresent()) {
+            user.get().setPassword(resetPasswordReq.getNewPassword());
+            System.out.println(user.get().getPassword());
+            this.userService.saveUser(new UserDto(user.get().getEmail(),user.get().getPassword()),true);
+        }
+
     }
 }

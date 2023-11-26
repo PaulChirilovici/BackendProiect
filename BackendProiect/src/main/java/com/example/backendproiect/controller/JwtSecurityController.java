@@ -41,7 +41,7 @@ public class JwtSecurityController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
         try {
-            userDetailsService.saveUser(user);
+            userDetailsService.saveUser(user,false);
             return ResponseEntity.ok(user.toString() + " REGISTERED SUCCESSFULLY!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("User already registered!");
