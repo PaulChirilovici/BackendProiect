@@ -38,6 +38,7 @@ public class EmployeeController {
             return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
         }catch (Exception e)
         {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("Cannot create user with same email.");
         }
     }
